@@ -9,20 +9,8 @@ public class MainProgram
 	public static void main(String[] args) throws IOException
 	{
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-		String response;
 		
-		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-		
-		System.out.println("Enter the number of rows you would like your world to have.");
-		
-		numberOfRows = Integer.parseInt(in.readLine());
-		
-		System.out.println("Enter the number of columns you would like your world to have.");
-		
-		numberOfColumns = Integer.parseInt(in.readLine());
-
-		
-		World world = buildWorld(5, 5, 5, 3, 2);
+		World world = buildWorld(5, 3, 2);
 		
 		do
 		{
@@ -31,42 +19,45 @@ public class MainProgram
 				world.step();
 			}
 			
-			world.display();
-			
+			//world.display();
+
+			String response;
 			while(true)
 			{
 				System.out.println("Would you like to run the simulation again?");
-				response = in.readLine();
-				
+				response = in.readLine();	
 				if(response.equalsIgnoreCase("no") || response.equalsIgnoreCase("yes")) break;
 				else System.out.println("Please reply either a yes or a no.");
-			}
-			
+			}			
 			if(response.equalsIgnoreCase("no")) break;
 
 		}while(true);	
+		System.out.println("Fine then!! Have a nice day!");
 	}
 	
 	/**
-	 * construct a world of a particular size and then populate
-	 * @throws Exception If there is not enough room.
+	 * construct a world of and then populate
+	 * @throws IndexOutOfBoundsException If there is not enough room.
 	 */
-	private static World buildWorld(int x, int y, int immovables, int moveables, int autonomous)
+	private static World buildWorld(int immovables, int moveables, int autonomous)
 	{
-		if(x*y>immovables+moveables+autonomous) throw new Exception("Not enough room for those objects");
+		if(World.columnSize * World.rowSize<immovables+moveables+autonomous) throw new IndexOutOfBoundsException("Not enough room for those objects");
 		World world = new World();
-		Random ran = new Random(0);
-		for(int i = 0; i < immovables; i++)
-		{
-			int itemX, itemY;
-			// find a free spot
-			do {
-				itemX = ran.nextInt(x);
-				itemY = ran.nextInt(y);
-			} while(world.getItem(x, y) != null);
+		Random ran = new Random(0); // debugging, always creates random at the same place
+		for(int i = 0; i < immovables; i++) {
 			char tok = (char) ('a' + (i % 26));
 			String str = "" + tok;
-			world.add(new Immovable(str, tok, x, y), x, y);
+			Immovable imm = new Immovable(str, tok);
+			boolean success = false;
+			do {
+				try {
+					int x = ran.nextInt(World.rowSize), y = ran.nextInt(World.columnSize);
+					world.add(imm, x, y);
+					success = true;
+				} catch(ArrayStoreException e) {
+					// try again in a different place
+				}
+			} while(!success);
 		}
 		/*addImmovablesToList(world, immovables);
 		addMoveablesToList(world, moveables);

@@ -74,6 +74,17 @@ public abstract class Item
 	}
 
 	/**
+	 * Sets x,y. x, y are the key, so be careful.
+	 * @param x
+	 * @param y
+	 */
+	public void setXY(final int x, final int y)
+	{
+		this.x = x;
+		this.y = y;
+	}
+	
+	/**
 	 * This is a perfect hash for the columnSize x rowSize.
 	 * It takes in no arguments and it uses the (x, y) coordinate of the 
 	 * item to compute a unique value to use as an index into the array
