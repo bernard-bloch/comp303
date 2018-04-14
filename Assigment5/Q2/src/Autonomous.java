@@ -1,19 +1,25 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Implemented exactly like Moveable (bumped by a Moveable object or another
  * Autonomous object causes it to shift one cell in the direction it was bumped).
  * @author jbloch1
  *
  */
-public class Autonomous extends Item {
+public final class Autonomous extends Moveable {
 	public Autonomous(String name, char token)
 	{
 		super(name, token);
 	}
+		
+	private Coord direction(final int x, final int y) {
+		if(World.isValidCoord(x, y));
+	}
 	
-	
-	public boolean isMoveable()
-	{
-		return true;
+	private List<Coord> getDirections() {
+		List<Coord> dir = new ArrayList<>();
+		
 	}
 	
 	/**

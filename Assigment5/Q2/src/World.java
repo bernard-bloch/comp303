@@ -1,40 +1,25 @@
-import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 
 public class World 
 {
-	private Set<Item> world;
 	public static final int rowSize = 5, columnSize = 5;
-	static private JFrame frame = null; // A window
-
-	/**
-	 * A 2D array that can store one Moveable, Immoveable, or Autonomous object per
-	 * cell of the array.
-	 */
-	public World()
-	{
-		// this will implement a perfect hash set which is mapped to 2d array which will not allow multiple entries
-		world = new LinkedHashSet<>(rowSize * columnSize);
-	}
-		
+	// this will implement a perfect hash set which is mapped to 2d array which will not allow multiple entries
+	private static Set<Item> world = new LinkedHashSet<>(rowSize * columnSize);
+	private static JFrame frame = null; // A window
+			
 	/**
 	 * A method called public void step() that iterates through the cells of the
 	 * array changing the state of the world by updating the position of all the
 	 * Autonomous and Moveable objects (see below). It does this once for each call to
 	 * the method.
 	 */
-	public void step()
+	public static void step()
 	{
 		world.forEach(item -> item.step());
 	}
@@ -44,10 +29,23 @@ public class World
 	 * @return Returns true if the item is in the world
 	 *  Otherwise false.
 	 */
-	public boolean containsItem(final Item item) {
+	/*public static boolean containsItem(final Item item) {
 		return world.contains(item);
-	}
+	}*/
 		
+	/**
+	 * Look in the world.
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	public static Item get(final int x, final int y) {
+		// i is a dummy only used for it's hashCode()
+		Item i = new Immovable("", 'x');
+		i.setXY(x, y);
+		
+	}
+	
 	/**
 	 * The method public void add(item,x,y) is used to populate the world
 	 * by adding items to the array at cell x,y. The cell needs to be available (empty) or
@@ -57,7 +55,7 @@ public class World
 	 * @param y column
 	 * @throws NullPointerException, IndexOutOfBoundsException, ArrayStoreException when the array is occupied.
 	 */
-	public void add(Item item, int x, int y) throws NullPointerException, IndexOutOfBoundsException, ArrayStoreException
+	public static void add(Item item, int x, int y) throws NullPointerException, IndexOutOfBoundsException, ArrayStoreException
 	{
 		if(item == null) throw new NullPointerException();
 		if(!isValidCoord(x, y)) throw new IndexOutOfBoundsException("Invalid coordinates ("+x+", "+y+").");
@@ -67,31 +65,32 @@ public class World
 		world.add(item);
 	}
 
-	private boolean isValidCoord(int x, int y)
+	/**
+	 * Clears the world. Armageddon.
+	 */
+	public static void clear() {
+		world.clear();
+	}
+	
+	/**
+	 * Is this a valid coord?
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	public static boolean isValidCoord(int x, int y)
 	{
 		if(x < 0 || y < 0) return false;
 		else if(x >= rowSize || y >= columnSize) return false;
 		else return true;
 	}
-	
-	/**
-	 * 
-	 * @param x
-	 * @param y
-	 * @return
-	 * @throws IndexOutOfBoundsException
-	 */
-	/*public Item getItem(int x, int y) throws IndexOutOfBoundsException {
-		if(!isValidCoord(x, y)) throw new IndexOutOfBoundsException("Invalid coordinates ("+x+", "+y+").");
-		return world[x][y];
-	}*/
 
 	/**
 	 * The method public void display() to display the world on the screen
 	 * using Swing or JavaFX. This must be a GUI grid displaying simple text tokens
 	 * that represent the items in the world.
 	 */
-	public void display()
+	public static void display()
 	{
 		char tokens[][] = new char[World.rowSize][World.columnSize];
 		for(int x = 0; x < rowSize; x++) {
@@ -109,6 +108,9 @@ public class World
 		}
 	}
 	
+	/**
+	 * Called in main program once
+	 */
 	public static void prepareGui()
 	{
 		frame = new JFrame("World Display");

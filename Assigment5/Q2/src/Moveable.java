@@ -6,8 +6,16 @@
  * @author jbloch1
  *
  */
-public class Moveable extends Item 
+public class Moveable extends Immovable 
 {
+	
+	/**
+	 * For internals to Moveable and Autonomous
+	 */
+	protected class Coord {
+		int x, y;
+	}
+
 	public Moveable(String name, char token)
 	{
 		super(name, token);
