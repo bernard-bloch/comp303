@@ -1,8 +1,16 @@
-
-public class Immovable extends Something 
+/**
+ * Immovable.
+ * @author jbloch1
+ *
+ */
+public class Immovable extends Item 
 {
-	public Immovable(String name, char token, int x, int y)
+	public Immovable(String name, char token)
 	{
-		super(name, token, x, y);
+		super(name, token);
+	}
+	public boolean isMoveable()
+	{
+		return false;
 	}
 }
