@@ -8,11 +8,11 @@ public class MainProgram
 {
 	public static void main(String[] args) throws IOException
 	{
-		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-		
 		World world = buildWorld(5, 3, 2);
 		
-		do
+		System.err.println(world);
+		
+		/*do
 		{
 			world.display();
 			
@@ -22,13 +22,13 @@ public class MainProgram
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			/*for(int countIteration = 1; countIteration <= 100; countIteration++)
+			for(int countIteration = 1; countIteration <= 100; countIteration++)
 			{
 				world.step();
 				
 			}
 			
-			world.display();*/
+			world.display();
 
 			String response;
 			while(true)
@@ -42,9 +42,9 @@ public class MainProgram
 			if(response.equalsIgnoreCase("no")) break;
 
 		}while(true);	
-		System.out.println("Fine then!! Have a nice day!");
+		System.out.println("Fine then!! Have a nice day!");*/
 	}
-	
+		
 	/**
 	 * construct a world of and then populate
 	 * @throws IndexOutOfBoundsException If there is not enough room.
@@ -56,55 +56,46 @@ public class MainProgram
 		if(columns * rows<immovables+moveables+autonomous) throw new IndexOutOfBoundsException("Not enough room for those objects");
 		World world = new World(rows, columns);
 		Random ran = new Random(0); // debugging, always creates random at the same place
-		
+		int x, y;
+
+		System.err.println(world);
 		for(int i = 0; i < immovables; i++) {
 			char tok = (char) ('A' + (i % 26));
 			String str = "" + tok;
 			Immovable imm = new Immovable(world, "Imm-"+str, tok);
-			boolean success = false;
 			do {
-				try {
-					int x = ran.nextInt(world.rowSize), y = ran.nextInt(world.columnSize);
-					world.add(imm, x, y);
-					success = true;
-				} catch(ArrayStoreException e) {
-					// the contents are occupied try again in a different place
-				}
-			} while(!success);
-			System.err.println("Immovable " + imm + " added.");
+				x = ran.nextInt(world.rowSize);
+				y = ran.nextInt(world.columnSize);
+			} while(world.look(x, y) != null);
+			world.add(imm, x, y);
+			System.err.println("Immovable " + imm + " added: " + world.look(x, y));
 		}
+		System.err.println(world);
 		for(int i = 0; i < moveables; i++) {
 			char tok = (char) ('a' + (i % 26));
 			String str = "" + tok;
 			Moveable mov = new Moveable(world, "Mov-"+str, tok);
-			boolean success = false;
 			do {
-				try {
-					int x = ran.nextInt(world.rowSize), y = ran.nextInt(world.columnSize);
-					world.add(mov, x, y);
-					success = true;
-				} catch(ArrayStoreException e) {
-					// the contents are occupied try again in a different place
-				}
-			} while(!success);
-			System.err.println("Movable " + mov + " added.");
+				x = ran.nextInt(world.rowSize);
+				y = ran.nextInt(world.columnSize);
+			} while(world.look(x, y) != null);
+			world.add(mov, x, y);
+			System.err.println("Movable " + mov + " added: " + world.look(x, y));
 		}
+		System.err.println(world);
 		for(int i = 0; i < autonomous; i++) {
 			char tok = (char) ('!' + (i % 32));
 			String str = "" + tok;
 			Autonomous aut = new Autonomous(world, "Aut-"+str, tok);
-			boolean success = false;
 			do {
-				try {
-					int x = ran.nextInt(world.rowSize), y = ran.nextInt(world.columnSize);
-					world.add(aut, x, y);
-					success = true;
-				} catch(ArrayStoreException e) {
-					// the contents are occupied try again in a different place
-				}
-			} while(!success);
-			System.err.println("Autonomous " + aut + " added.");
+				x = ran.nextInt(world.rowSize);
+				y = ran.nextInt(world.columnSize);
+			} while(world.look(x, y) != null);
+			world.add(aut, x, y);
+			System.err.println("Autonomous " + aut + " added: " + world.look(x, y));
 		}
+		System.err.println(world);
+		System.err.println("(1,0)="+world.look(1,0));
 		return world;
 	}
 }

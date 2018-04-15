@@ -1,9 +1,13 @@
+package JavaCool303;
 import java.awt.Color;
 
 import javax.swing.JPanel;
 
 public class Cool303Container extends JPanel implements Cool303Component
 {
+	
+	private static final long serialVersionUID = 1L;
+
 	public Cool303Container()
 	{
 		JPanel panel = new JPanel();
@@ -11,8 +15,8 @@ public class Cool303Container extends JPanel implements Cool303Component
 	}
 
 	@Override
-	public void setColor(Color c) {
-		// TODO Auto-generated method stub
-		
+	public void setColor(Color c) 
+	{
+		setBackground(c);
 	}
 }

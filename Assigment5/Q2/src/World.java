@@ -66,12 +66,15 @@ public class World extends Stew<Item>
 	public void add(Item item, int x, int y) throws NullPointerException, IndexOutOfBoundsException, ArrayStoreException
 	{
 		if(item == null) throw new NullPointerException();
-		if(!isValidCoord(x, y)) throw new IndexOutOfBoundsException("Invalid coordinates ("+x+", "+y+").");
-		if(look(x, y) != null) throw new ArrayStoreException("Array cell is already occupied.");
+		if(!isValidCoord(x, y)) throw new IndexOutOfBoundsException(item + " add ("+x+", "+y+") invalid coordinates.");
+		if(look(x, y) != null) throw new ArrayStoreException(item + " add ("+x+", "+y+") array cell is already occupied.");
 		// remove old position
 		if(contains(item)) remove(item);
 		item.setXY(x, y);
-		add(item);
+		System.err.println("Adding " + item);
+		if(!add(item)) throw new ArrayStoreException("Couldn't add " + item);
+		assert(look(x, y) == item);
+		System.err.println("Added " + look(x, y));
 	}
 	
 	/**
