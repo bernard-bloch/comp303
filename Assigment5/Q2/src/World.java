@@ -1,49 +1,56 @@
 import java.awt.GridLayout;
-import java.util.LinkedHashSet;
-import java.util.Set;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-
-public class World 
+/**
+ * This is the world. This is implemented as a rowSize x columnSize
+ * array backed by a LinkedHashMap (approximately) to enforce a
+ * singleton design pattern.
+ * @author jbloch1
+ *
+ */
+public class World extends Stew<Item>
 {
-	public static final int rowSize = 5, columnSize = 5;
-	// this will implement a perfect hash set which is mapped to 2d array which will not allow multiple entries
-	private static Set<Item> world = new LinkedHashSet<>(rowSize * columnSize);
 	private static JFrame frame = null; // A window
-			
+
+	public final int rowSize, columnSize;
+	
+	/**
+	 * Sets up a blank world.
+	 * @param rowSize
+	 * @param columnSize
+	 */
+	public World(final int rowSize, final int columnSize) {
+		super(rowSize * columnSize);
+		this.rowSize = rowSize;
+		this.columnSize = columnSize;
+		prepareGui();
+	}
+	
 	/**
 	 * A method called public void step() that iterates through the cells of the
 	 * array changing the state of the world by updating the position of all the
 	 * Autonomous and Moveable objects (see below). It does this once for each call to
 	 * the method.
 	 */
-	public static void step()
+	public void step()
 	{
-		world.forEach(item -> item.step());
+		forEach(item -> item.step());
 	}
 	
-	/**
-	 * @param item
-	 * @return Returns true if the item is in the world
-	 *  Otherwise false.
-	 */
-	/*public static boolean containsItem(final Item item) {
-		return world.contains(item);
-	}*/
-		
 	/**
 	 * Look in the world.
 	 * @param x
 	 * @param y
-	 * @return
+	 * @return The item at the coordinates.
 	 */
-	public static Item get(final int x, final int y) {
+	public Item look(final int x, final int y)
+	{
+		if(!isValidCoord(x, y)) return null;
 		// i is a dummy only used for it's hashCode()
-		Item i = new Immovable("", 'x');
+		Item i = new Immovable(this, "i", 'i');
 		i.setXY(x, y);
-		
+		return get(i);
 	}
 	
 	/**
@@ -55,21 +62,15 @@ public class World
 	 * @param y column
 	 * @throws NullPointerException, IndexOutOfBoundsException, ArrayStoreException when the array is occupied.
 	 */
-	public static void add(Item item, int x, int y) throws NullPointerException, IndexOutOfBoundsException, ArrayStoreException
+	public void add(Item item, int x, int y) throws NullPointerException, IndexOutOfBoundsException, ArrayStoreException
 	{
 		if(item == null) throw new NullPointerException();
 		if(!isValidCoord(x, y)) throw new IndexOutOfBoundsException("Invalid coordinates ("+x+", "+y+").");
-		if(world.contains(item)) world.remove(item);
+		if(look(x, y) != null) throw new ArrayStoreException("Array cell is already occupied.");
+		// remove old position
+		if(contains(item)) remove(item);
 		item.setXY(x, y);
-		if(world.contains(item)) throw new ArrayStoreException("Array cell is already occupied.");
-		world.add(item);
-	}
-
-	/**
-	 * Clears the world. Armageddon.
-	 */
-	public static void clear() {
-		world.clear();
+		add(item);
 	}
 	
 	/**
@@ -78,7 +79,7 @@ public class World
 	 * @param y
 	 * @return
 	 */
-	public static boolean isValidCoord(int x, int y)
+	public boolean isValidCoord(int x, int y)
 	{
 		if(x < 0 || y < 0) return false;
 		else if(x >= rowSize || y >= columnSize) return false;
@@ -90,15 +91,15 @@ public class World
 	 * using Swing or JavaFX. This must be a GUI grid displaying simple text tokens
 	 * that represent the items in the world.
 	 */
-	public static void display()
+	public void display()
 	{
-		char tokens[][] = new char[World.rowSize][World.columnSize];
+		char tokens[][] = new char[rowSize][columnSize];
 		for(int x = 0; x < rowSize; x++) {
 			for(int y = 0; y < columnSize; y++) {
 				tokens[x][y] = ' ';
 			}
 		}
-		for(Item i : world) tokens[i.getX()][i.getY()] = i.getToken();
+		for(Item i : this) tokens[i.getX()][i.getY()] = i.getToken();
 		for(int x = 0; x < rowSize; x++) {
 			for(int y = 0; y < columnSize; y++) {
 				JLabel a = new JLabel(""+tokens[x][y]);
@@ -109,15 +110,36 @@ public class World
 	}
 	
 	/**
-	 * Called in main program once
+	 * Called from constructor
 	 */
-	public static void prepareGui()
+	private void prepareGui()
 	{
 		frame = new JFrame("World Display");
-		frame.setSize(50 * World.rowSize, 50 * World.columnSize);
+		frame.setSize(50 * rowSize, 50 * columnSize);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLayout(new GridLayout(/*World.columnSize,World.rowSize, */5, 5));
+		frame.setLayout(new GridLayout(columnSize,rowSize, 5, 5));
 		frame.setVisible(true);
+	}
+	
+	/**
+	 * Debug.
+	 */
+	@Override
+	public String toString() {
+		String a = "";
+		for(int y = 0; y < columnSize; y++) {
+			for(int x = 0; x < rowSize; x++) {
+				Item i = look(x, y);
+				if(i == null) {
+					a += " ";
+				} else {
+					a += i.getToken();
+				}
+			}
+			a += "\n";
+		}
+		return a;
 	}
 
 }
+

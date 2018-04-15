@@ -8,7 +8,6 @@ public class MainProgram
 {
 	public static void main(String[] args) throws IOException
 	{
-		World.prepareGui();
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		
 		World world = buildWorld(5, 3, 2);
@@ -25,6 +24,7 @@ public class MainProgram
 			String response;
 			while(true)
 			{
+				System.out.println(world);
 				System.out.println("Would you like to run the simulation again?");
 				response = in.readLine();	
 				if(response.equalsIgnoreCase("no") || response.equalsIgnoreCase("yes")) break;
@@ -42,149 +42,57 @@ public class MainProgram
 	 */
 	private static World buildWorld(int immovables, int moveables, int autonomous)
 	{
-		if(World.columnSize * World.rowSize<immovables+moveables+autonomous) throw new IndexOutOfBoundsException("Not enough room for those objects");
-		World world = new World();
+		final int rows = 5, columns = 5;
+		// ensure the size is enough for every object
+		if(columns * rows<immovables+moveables+autonomous) throw new IndexOutOfBoundsException("Not enough room for those objects");
+		World world = new World(rows, columns);
 		Random ran = new Random(0); // debugging, always creates random at the same place
+		
 		for(int i = 0; i < immovables; i++) {
-			char tok = (char) ('a' + (i % 26));
+			char tok = (char) ('A' + (i % 26));
 			String str = "" + tok;
-			Immovable imm = new Immovable(str, tok);
+			Immovable imm = new Immovable(world, "Imm-"+str, tok);
 			boolean success = false;
 			do {
 				try {
-					int x = ran.nextInt(World.rowSize), y = ran.nextInt(World.columnSize);
+					int x = ran.nextInt(world.rowSize), y = ran.nextInt(world.columnSize);
 					world.add(imm, x, y);
 					success = true;
 				} catch(ArrayStoreException e) {
-					// try again in a different place
+					// the contents are occupied try again in a different place
 				}
 			} while(!success);
 		}
-		/*addImmovablesToList(world, immovables);
-		addMoveablesToList(world, moveables);
-		addAutonomousToList(world, autonomous);*/
+		for(int i = 0; i < moveables; i++) {
+			char tok = (char) ('a' + (i % 26));
+			String str = "" + tok;
+			Moveable mov = new Moveable(world, "Mov-"+str, tok);
+			boolean success = false;
+			do {
+				try {
+					int x = ran.nextInt(world.rowSize), y = ran.nextInt(world.columnSize);
+					world.add(mov, x, y);
+					success = true;
+				} catch(ArrayStoreException e) {
+					// the contents are occupied try again in a different place
+				}
+			} while(!success);
+		}
+		/*for(int i = 0; i < autonomous; i++) {
+			char tok = (char) ('!' + (i % 32));
+			String str = "" + tok;
+			Autonomous aut = new Autonomous(world, "Aut-"+str, tok);
+			boolean success = false;
+			do {
+				try {
+					int x = ran.nextInt(world.rowSize), y = ran.nextInt(world.columnSize);
+					world.add(aut, x, y);
+					success = true;
+				} catch(ArrayStoreException e) {
+					// the contents are occupied try again in a different place
+				}
+			} while(!success);
+		}*/
 		return world;
-		/*int countImmovableObjects, countMoveableObjects, countAutonomousObjects;
-		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-		System.out.println("How many immovable objects would you like in the world?");
-		countImmovableObjects = Integer.parseInt(in.readLine());
-		System.out.println("How many moveable objects would you like in the world?");
-		countMoveableObjects = Integer.parseInt(in.readLine());
-		System.out.println("How many autonomous objects would you like in the world?");
-		countAutonomousObjects = Integer.parseInt(in.readLine()); */
 	}
-	
-	/*public static void addImmovablesToList(World world, int countImmovableObjects) throws IOException 
-	{
-		String name; char token; int x, y; 
-		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-		
-		
-		for(int immovableObjsNum = 0; immovableObjsNum < countImmovableObjects; immovableObjsNum++)
-		{	
-			System.out.println("What name will you give this object");
-			
-			name = in.readLine();
-			
-			System.out.println("What token will you give this object");
-			
-			token = in.readLine().charAt(0);
-		
-			do{
-				System.out.println("Where on the x-axis will this object be placed?");
-				
-				x = Integer.parseInt(in.readLine());
-			
-				System.out.println("Where on the y-axis will this object be placed?");
-			
-				y = Integer.parseInt(in.readLine());
-			
-				try
-				{
-					world.add(new Immovable(name, token, x, y), x, y);
-					break;
-				}catch(Exception error)
-				{
-					System.err.println(error.getMessage());
-				}
-				System.out.println("here");
-			}while(true);
-		}
-	}
-	
-	public static void addMoveablesToList(World world, int countMoveableObjects) throws IOException
-	{
-		String name; char token; int x, y; 
-		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-		
-		for(int movableObjsNum = 0; movableObjsNum < countMoveableObjects; movableObjsNum++)
-		{ 	
-			System.out.println("What name will you give this object");
-			
-			name = in.readLine();
-			
-			System.out.println("What token will you give this object");
-			
-			token = in.readLine().charAt(0);
-			
-			do
-			{
-				System.out.println("Where on the x-axis will this object be placed?");
-			
-				x = Integer.parseInt(in.readLine());
-			
-				System.out.println("Where on the y-axis will this object be placed?");
-			
-				y = Integer.parseInt(in.readLine());
-			
-				try
-				{
-					world.add(new Moveable(name, token, x, y), x, y);
-					break;
-				}catch(Exception error)
-				{
-					System.err.println(error.getMessage());
-				}
-				
-			}while(true);
-		}
-	}
-	
-	public static void addAutonomousToList(World world, int countAutonomousObjects) throws IOException
-	{
-		String name; char token; int x, y; 
-		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-		
-		for(int autonomousObjsNum = 0; autonomousObjsNum < countAutonomousObjects; autonomousObjsNum++)
-		{
-			System.out.println("What name will you give this object");
-			
-			name = in.readLine();
-			
-			System.out.println("What token will you give this object");
-			
-			token = in.readLine().charAt(0);
-
-			do
-			{
-				System.out.println("Where on the x-axis will this object be placed?");
-			
-				x = Integer.parseInt(in.readLine());
-			
-				System.out.println("Where on the y-axis will this object be placed?");
-			
-				y = Integer.parseInt(in.readLine());
-			
-				try
-				{
-					world.add(new Autonomous(name, token), x, y);
-					break;
-				}catch(IOException error)
-				{
-					System.err.println(error.getMessage());
-				}
-				
-			}while(true);
-		}
-	}*/
 }

@@ -1,21 +1,27 @@
 /**
  * Items are Moveable, Immovable, or Autonomous.
+ * I could just enclose this in Immovable, but then there would
+ * be List<Immovable>, which is awkward to write and confuses.
+ * List<Item> is much better.
  * @author jbloch1
  *
  */
 public abstract class Item
 {
+	protected final World world;
 	private final String name;
 	private final char token;
 	private int x, y;
 	
 	/**
 	 * Initializes an item. Called from Immovable, Moveable and Autonomous using super method.
+	 * @param world The world it was intended for.
 	 * @param name
 	 * @param token
 	 */
-	public Item(String name, char token)
+	public Item(final World world, final String name, final char token)
 	{
+		this.world = world;
 		this.name = name;
 		this.token = token;
 		this.x = 0;
@@ -31,11 +37,17 @@ public abstract class Item
 	}
 	
 	/**
-	 * Abstract
+	 * Is the item movable from push?
 	 * @return true or false if moveable or not respectively
 	 */
-	public abstract boolean isMoveable();
-	
+	public abstract boolean isMoveable(final Moveable push);
+
+	/**
+	 * Move the item.
+	 * @param moveable
+	 */
+	protected abstract void move(Moveable moveable);
+
 	/**
 	 * Private string name, describing what it is.
 	 * @return name
@@ -59,7 +71,7 @@ public abstract class Item
 	 * Private int x, y, which specifies the location in the array this item exists.
 	 * @return
 	 */
-	public int getX()
+	protected int getX()
 	{
 		return x;
 	}
@@ -68,13 +80,13 @@ public abstract class Item
 	 * Private int x, y, which specifies the location in the array this item exists.
 	 * @return
 	 */
-	public int getY()
+	protected int getY()
 	{
 		return y;
 	}
 
 	/**
-	 * Sets x,y. x, y are the key, so be careful.
+	 * Sets x,y. x, y are the key, so be careful that it's not in the world
 	 * @param x
 	 * @param y
 	 */
@@ -88,15 +100,17 @@ public abstract class Item
 	 * This is a perfect hash for the columnSize x rowSize.
 	 * It takes in no arguments and it uses the (x, y) coordinate of the 
 	 * item to compute a unique value to use as an index into the array
+	 * This is so that I have one authoritative state instead of two
+	 * or many which is contrary to object-oriented code.
 	 */
 	@Override
 	public final int hashCode()
 	{
-		return x + y * World.rowSize;
+		return x + y * world.rowSize;
 	}
 	
 	/**
-	 * Compares the x, y.
+	 * Compares the x, y. This is so hashCode works.
 	 * http://www.angelikalanger.com/Articles/JavaSolutions/SecretsOfEquals/Equals-2.html
 	 */
 	@Override

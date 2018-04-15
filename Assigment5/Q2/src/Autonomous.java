@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Implemented exactly like Moveable (bumped by a Moveable object or another
@@ -8,18 +9,41 @@ import java.util.List;
  *
  */
 public final class Autonomous extends Moveable {
-	public Autonomous(String name, char token)
+
+	static Random ran = new Random(0);
+	
+	public Autonomous(final World world, final String name, final char token)
 	{
-		super(name, token);
+		super(world, name, token);
 	}
 		
-	private Coord direction(final int x, final int y) {
-		if(World.isValidCoord(x, y));
+	// vector
+	private class Vector {
+		final int x, y;
+		Vector(final int x, final int y) {
+			this.x = x;
+			this.y = y;
+		}
 	}
 	
-	private List<Coord> getDirections() {
-		List<Coord> dir = new ArrayList<>();
-		
+	private Vector direction(final int x, final int y) {
+		if(!world.isValidCoord(x, y)) return null;
+		// test item
+		Item test = new Immovable(world, "Test", 'x');
+		test.setXY(x, y);
+		// real item
+		Item item = world.get(test);
+		return item == null || item.isMoveable(this) ? new Vector(x, y) : null;
+	}
+	
+	private List<Vector> getExits() {
+		List<Vector> exits = new ArrayList<>();
+		Vector e;
+		if((e = direction(getX() + 1, getY())) != null) exits.add(e);
+		if((e = direction(getX() - 1, getY())) != null) exits.add(e);
+		if((e = direction(getX(), getY() + 1)) != null) exits.add(e);
+		if((e = direction(getX(), getY() - 1)) != null) exits.add(e);
+		return exits;
 	}
 	
 	/**
@@ -29,25 +53,16 @@ public final class Autonomous extends Moveable {
 	@Override
 	public void step()
 	{
-		
-		/*double randomDecimalNum = Math.random();
-		
-		if(randomDecimalNum >= 0 && randomDecimalNum <= 0.25)
-		{
-			World.moveUp(this.getX(),this.getY());
-		}
-		else if(randomDecimalNum >= 0.25 && randomDecimalNum < 0.50)
-		{
-			World.moveDown(this.getX(),this.getY());
-		}
-		else if(randomDecimalNum >= 0.50 && randomDecimalNum < 0.75)
-		{
-			World.moveLeft(this.getX(),this.getY());
-		}
-		else 
-		{
-			World.moveRight(this.getX(),this.getY());
-		}*/
+		List<Vector> exits = getExits();
+		// we can't go anywhere
+		if(exits.isEmpty()) return;
+		// pick a random direction
+		Vector exit = exits.get(ran.nextInt(exits.size()));
+		Item bump = world.look(exit.x, exit.y);
+		if(bump != null) bump.move(this);
+		world.remove(this);
+		this.setXY(exit.x, exit.y);
+		world.add(this);
 	}
 	
 }

@@ -9,20 +9,34 @@
 public class Moveable extends Immovable 
 {
 	
+	public Moveable(final World world, final String name, final char token)
+	{
+		super(world, name, token);
+	}
 	/**
-	 * For internals to Moveable and Autonomous
+	 * Is movable from item push
 	 */
-	protected class Coord {
-		int x, y;
-	}
-
-	public Moveable(String name, char token)
+	@Override
+	public boolean isMoveable(final Moveable push)
 	{
-		super(name, token);
+		int x = this.getX() + this.getX() - push.getX();
+		int y = this.getY() + this.getY() - push.getY();
+		Item i = world.look(x,y);
+		return i == null ? true : i.isMoveable(this);
 	}
-	
-	public boolean isMoveable()
-	{
-		return true;
+	/**
+	 * Check isMoveable first to avoid exceptions.
+	 */
+	@Override
+	public void move(final Moveable push) {
+		int x = this.getX() + this.getX() - push.getX();
+		int y = this.getY() + this.getY() - push.getY();
+		// move the others recursively
+		Item i = world.look(x,y);
+		if(i != null) i.move(this);
+		// move this
+		world.remove(this);
+		this.setXY(x, y);
+		world.add(this);
 	}
 }

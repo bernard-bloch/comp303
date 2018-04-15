@@ -1,3 +1,5 @@
+import javax.print.attribute.UnmodifiableSetException;
+
 /**
  * Immovable.
  * @author jbloch1
@@ -5,12 +7,17 @@
  */
 public class Immovable extends Item 
 {
-	public Immovable(String name, char token)
+	public Immovable(final World world, final String name, final char token)
 	{
-		super(name, token);
+		super(world, name, token);
 	}
-	public boolean isMoveable()
+	@Override
+	public boolean isMoveable(final Moveable push)
 	{
 		return false;
+	}
+	@Override
+	public void move(final Moveable push) {
+		throw new UnmodifiableSetException("Can't move.");
 	}
 }
