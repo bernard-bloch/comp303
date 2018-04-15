@@ -127,16 +127,12 @@ public class World extends Stew<Item>
 	@Override
 	public String toString() {
 		String a = "";
-		for(int y = 0; y < columnSize; y++) {
-			for(int x = 0; x < rowSize; x++) {
+		for(int x = 0; x < rowSize; x++) {
+			for(int y = 0; y < columnSize; y++) {
 				Item i = look(x, y);
-				if(i == null) {
-					a += " ";
-				} else {
-					a += i.getToken();
-				}
+				a += i == null ? ' ' : i.getToken();
 			}
-			a += "\n";
+			a += '\n';
 		}
 		return a;
 	}

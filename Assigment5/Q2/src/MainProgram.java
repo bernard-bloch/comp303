@@ -62,6 +62,7 @@ public class MainProgram
 					// the contents are occupied try again in a different place
 				}
 			} while(!success);
+			System.err.println("Immovable " + imm + " added.");
 		}
 		for(int i = 0; i < moveables; i++) {
 			char tok = (char) ('a' + (i % 26));
@@ -77,6 +78,7 @@ public class MainProgram
 					// the contents are occupied try again in a different place
 				}
 			} while(!success);
+			System.err.println("Movable " + mov + " added.");
 		}
 		/*for(int i = 0; i < autonomous; i++) {
 			char tok = (char) ('!' + (i % 32));

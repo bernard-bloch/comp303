@@ -119,5 +119,13 @@ public abstract class Item
 		Item obj = (Item)o;
 		return (obj.x == this.x) && (obj.y == this.y);
 	}
+	
+	/**
+	 * Debug.
+	 */
+	@Override
+	public String toString() {
+		return name + " ["+token+"] at ("+x+","+y+")";
+	}
 
 }
