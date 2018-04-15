@@ -14,12 +14,21 @@ public class MainProgram
 		
 		do
 		{
-			for(int countIteration = 1; countIteration <= 100; countIteration++)
+			world.display();
+			
+			world.step();
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			/*for(int countIteration = 1; countIteration <= 100; countIteration++)
 			{
 				world.step();
+				
 			}
 			
-			world.display();
+			world.display();*/
 
 			String response;
 			while(true)
@@ -80,7 +89,7 @@ public class MainProgram
 			} while(!success);
 			System.err.println("Movable " + mov + " added.");
 		}
-		/*for(int i = 0; i < autonomous; i++) {
+		for(int i = 0; i < autonomous; i++) {
 			char tok = (char) ('!' + (i % 32));
 			String str = "" + tok;
 			Autonomous aut = new Autonomous(world, "Aut-"+str, tok);
@@ -94,7 +103,8 @@ public class MainProgram
 					// the contents are occupied try again in a different place
 				}
 			} while(!success);
-		}*/
+			System.err.println("Autonomous " + aut + " added.");
+		}
 		return world;
 	}
 }

@@ -20,7 +20,8 @@ public class World extends Stew<Item>
 	 * @param rowSize
 	 * @param columnSize
 	 */
-	public World(final int rowSize, final int columnSize) {
+	public World(final int rowSize, final int columnSize)
+	{
 		super(rowSize * columnSize);
 		this.rowSize = rowSize;
 		this.columnSize = columnSize;
