@@ -115,7 +115,6 @@ public abstract class Item
 	 */
 	@Override
 	public final boolean equals(Object o) {
-		if(o.getClass() != this.getClass()) return false;
 		Item obj = (Item)o;
 		return (obj.x == this.x) && (obj.y == this.y);
 	}

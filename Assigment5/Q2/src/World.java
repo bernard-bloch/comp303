@@ -51,6 +51,7 @@ public class World extends Stew<Item>
 		// i is a dummy only used for it's hashCode()
 		Item i = new Immovable(this, "i", 'i');
 		i.setXY(x, y);
+		System.err.println("World.look: "+i+"="+get(i));
 		return get(i);
 	}
 	
@@ -71,10 +72,8 @@ public class World extends Stew<Item>
 		// remove old position
 		if(contains(item)) remove(item);
 		item.setXY(x, y);
-		System.err.println("Adding " + item);
 		if(!add(item)) throw new ArrayStoreException("Couldn't add " + item);
-		assert(look(x, y) == item);
-		System.err.println("Added " + look(x, y));
+		System.err.println("Adding "+item+"; Added " + look(x, y));
 	}
 	
 	/**
@@ -130,7 +129,7 @@ public class World extends Stew<Item>
 	 */
 	@Override
 	public String toString() {
-		String a = "";
+		String a = "<<World.toString\n";
 		for(int x = 0; x < rowSize; x++) {
 			for(int y = 0; y < columnSize; y++) {
 				Item i = look(x, y);
@@ -138,6 +137,7 @@ public class World extends Stew<Item>
 			}
 			a += '\n';
 		}
+		a += super.toString() + "World.toString>>\n";
 		return a;
 	}
 

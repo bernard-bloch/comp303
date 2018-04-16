@@ -8,9 +8,8 @@ public class MainProgram
 {
 	public static void main(String[] args) throws IOException
 	{
-		World world = buildWorld(5, 3, 2);
-		
-		System.err.println(world);
+		//World world = buildWorld(5, 3, 2);
+		World world = buildWorld(1, 1, 1);
 		
 		/*do
 		{
@@ -51,14 +50,14 @@ public class MainProgram
 	 */
 	private static World buildWorld(int immovables, int moveables, int autonomous)
 	{
-		final int rows = 5, columns = 5;
+		final int rows = 2, columns = 2;
 		// ensure the size is enough for every object
 		if(columns * rows<immovables+moveables+autonomous) throw new IndexOutOfBoundsException("Not enough room for those objects");
 		World world = new World(rows, columns);
 		Random ran = new Random(0); // debugging, always creates random at the same place
 		int x, y;
 
-		System.err.println(world);
+		System.err.println("------------------buildWorld Empty:\n"+world);
 		for(int i = 0; i < immovables; i++) {
 			char tok = (char) ('A' + (i % 26));
 			String str = "" + tok;
@@ -68,9 +67,9 @@ public class MainProgram
 				y = ran.nextInt(world.columnSize);
 			} while(world.look(x, y) != null);
 			world.add(imm, x, y);
-			System.err.println("Immovable " + imm + " added: " + world.look(x, y));
+			System.err.println("buildWorld Immovable " + imm + " added: " + world.look(x, y));
 		}
-		System.err.println(world);
+		System.err.println("------------------buildWorld "+immovables+" immovable added:\n"+world);
 		for(int i = 0; i < moveables; i++) {
 			char tok = (char) ('a' + (i % 26));
 			String str = "" + tok;
@@ -80,9 +79,9 @@ public class MainProgram
 				y = ran.nextInt(world.columnSize);
 			} while(world.look(x, y) != null);
 			world.add(mov, x, y);
-			System.err.println("Movable " + mov + " added: " + world.look(x, y));
+			System.err.println("buildWorld Movable " + mov + " added: " + world.look(x, y));
 		}
-		System.err.println(world);
+		System.err.println("------------------buildWorld "+moveables+" moveable added:\n"+world);
 		for(int i = 0; i < autonomous; i++) {
 			char tok = (char) ('!' + (i % 32));
 			String str = "" + tok;
@@ -92,10 +91,9 @@ public class MainProgram
 				y = ran.nextInt(world.columnSize);
 			} while(world.look(x, y) != null);
 			world.add(aut, x, y);
-			System.err.println("Autonomous " + aut + " added: " + world.look(x, y));
+			System.err.println("buildWorld Autonomous " + aut + " added: " + world.look(x, y));
 		}
-		System.err.println(world);
-		System.err.println("(1,0)="+world.look(1,0));
+		System.err.println("------------------buildWorld "+autonomous+" autonomous added:\n"+world);
 		return world;
 	}
 }

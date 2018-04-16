@@ -1,6 +1,7 @@
 import java.util.AbstractSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.Map.Entry;
 import java.util.Set;
 
 /**
@@ -66,7 +67,8 @@ public class Stew<E>
 	public boolean add(E e) {
 		if(map.containsKey(e)) return false;
 		if(e.hashCode() >= bins) return false;
-        map.put(e, e);
+        if(map.put(e, e) != null) System.err.println("Error: " + e);;
+        System.err.println("Stew: "+map.get(e));
         return true;
     }
 	/**
@@ -87,6 +89,17 @@ public class Stew<E>
      * @return Either null or proto.equals(return).
      */
     public E get(final E proto) {
+    	System.err.println("Stew: get(" + proto.hashCode() + ") = " + map.get(proto));
     	return map.get(proto);
+    }
+    /**
+     * Debug.
+     */
+    public String toString() {
+    	String s = "Stew:\n";
+    	for(Entry<E, E> e : map.entrySet()) {
+    		s += "--" + e.getKey() + " {" + e.getKey().hashCode() + "}->" + e.getValue() + "\n";
+    	}
+    	return s;
     }
 }
