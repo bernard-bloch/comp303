@@ -1,6 +1,4 @@
 package JavaCool303;
-import java.awt.LayoutManager;
-
 import javax.swing.JFrame;
 
 public class Cool303Window extends JFrame 
@@ -8,10 +6,10 @@ public class Cool303Window extends JFrame
 	private static final long serialVersionUID = 1L;
 	protected Cool303Theme theme;
 	private Cool303Root root;
-	public Cool303Button makeButton(String label) {
+	public Cool303Button buttonFactory(String label) {
 		return theme.makeButton(label);
 	}
-	public Cool303Container makeContainer() {
+	public Cool303Container containerFactory() {
 		return theme.makeContainer();
 	}
 	public Cool303Window(Cool303Theme theme)
@@ -20,8 +18,5 @@ public class Cool303Window extends JFrame
 		root = new Cool303Root();
 		this.setContentPane(root);
 	}
-	public void setLayout(LayoutManager manager)
-	{
-		root.setLayout(manager);
-	}
+	
 }

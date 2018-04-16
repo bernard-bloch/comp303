@@ -24,27 +24,50 @@ public class Application
 		window.setLayout(new GridLayout(5,4,5,5));
 		for(int i=1; i <= 20; i++)
 		{
-			Cool303Button b = window.makeButton(""+i);
-			b.addActionListener(new ActionListener()
+			// add a button
+			Cool303Button button = window.buttonFactory(""+i);
+			button.addActionListener(new ActionListener()
 			{
 				public void actionPerformed(ActionEvent e)
 				{
-					System.out.println(b.getText());
+					System.out.println(button.getText());
 				}
 			}
 			);
-			window.makeContainer().add(b);
+			
+			// add a container
+			Cool303Container container = window.containerFactory();
+			window.add(container);
+			container.add(button);
+			
 		}
 		window.setVisible(true);
-
 		
 		
 		
-		Class selectedTheme = Cool303PastelTheme.class;
+		/*Class selectedTheme = Cool303PastelTheme.class;
 		
 		if(selectedTheme == Cool303SummerTheme.class)
 		{
-			/*Cool303Window cool303Window = new Cool303Window();
+			
+			Cool303Window window = new Cool303Window(new Cool303SummerTheme());
+			window.setSize(500, 500);
+			window.setLayout(new GridLayout(5,4,5,5));
+			for(int i=1; i <= 20; i++)
+			{
+				Cool303Button b = window.makeButton(""+i);
+				b.addActionListener(new ActionListener()
+				{
+					public void actionPerformed(ActionEvent e)
+					{
+						System.out.println(b.getText());
+					}
+				}
+				);
+				window.makeContainer().add(b);
+			}
+			window.setVisible(true);
+			Cool303Window cool303Window = new Cool303Window();
 		
 			cool303SummerWindow.setSize(500, 500);
 		
@@ -76,10 +99,27 @@ public class Application
 			}
 		
 		
-			cool303SummerWindow.setVisible(true);*/
+			cool303SummerWindow.setVisible(true);
 		}
 		else if(selectedTheme == Cool303PastelTheme.class)
 		{
+			Cool303Window window = new Cool303Window(new Cool303PastelTheme());
+			window.setSize(500, 500);
+			window.setLayout(new GridLayout(5,4,5,5));
+			for(int i=1; i <= 20; i++)
+			{
+				Cool303Button b = window.makeButton(""+i);
+				b.addActionListener(new ActionListener()
+				{
+					public void actionPerformed(ActionEvent e)
+					{
+						System.out.println(b.getText());
+					}
+				}
+				);
+				window.makeContainer().add(b);
+			}
+			window.setVisible(true);
 			Cool303PastelWindow cool303PastelWindow = new Cool303PastelWindow();
 			
 			cool303PastelWindow.setSize(500, 500);
@@ -113,6 +153,6 @@ public class Application
 		
 		
 			cool303PastelWindow.setVisible(true);
-		}
+		}*/
 	}
 }
