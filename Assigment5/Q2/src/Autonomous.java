@@ -16,8 +16,8 @@ public final class Autonomous extends Moveable {
 	{
 		super(world, name, token);
 	}
-		
-	// vector
+			
+	// vector for private movement list
 	private class Vector {
 		final int x, y;
 		Vector(final int x, final int y) {
@@ -25,7 +25,7 @@ public final class Autonomous extends Moveable {
 			this.y = y;
 		}
 	}
-	
+
 	private Vector direction(final int x, final int y) {
 		if(!world.isValidCoord(x, y)) return null;
 		// test item

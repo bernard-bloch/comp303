@@ -1,3 +1,4 @@
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,10 +16,10 @@ public class MainProgram
 		
 		do
 		{
-			for(int countIteration = 1; countIteration <= 4/*100*/; countIteration++)
+			for(int countIteration = 1; countIteration <= 100; countIteration++)
 			{
 				try {
-					Thread.sleep(200);
+					Thread.sleep(50);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}

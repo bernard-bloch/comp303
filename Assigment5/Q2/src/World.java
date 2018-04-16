@@ -1,5 +1,5 @@
 import java.awt.GridLayout;
-import java.util.Iterator;
+import java.util.Stack;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -17,17 +17,7 @@ public class World extends Stew<Item>
 	private JLabel labels[][];
 
 	public final int rowSize, columnSize;
-	
-	// vector for private movement list
-	protected class Vector {
-		final int x, y;
-		Vector(final int x, final int y) {
-			this.x = x;
-			this.y = y;
-		}
-	}
-
-	
+			
 	/**
 	 * Sets up a blank world.
 	 * @param rowSize
@@ -49,14 +39,10 @@ public class World extends Stew<Item>
 	 */
 	public void step()
 	{
-		// Concurrent modification:
-		forEach(item -> item.step());
-		// Concurrent modification: for(Item i : this) i.step();
-		/*Iterator<Map.Entry<Integer, Integer>> it = map.entrySet().iterator();
-		while (it.hasNext()) {
-		    Map.Entry<Integer, Integer> pair = it.next();
-		    i += pair.getKey() + pair.getValue();
-		}*/
+		// Concurrent modification prevents: forEach(i -> i.step())
+		Stack<Item> stack = new Stack<>();
+		forEach(item -> stack.add(item));
+		while(!stack.empty()) stack.pop().step();
 	}
 	
 	/**
@@ -121,7 +107,12 @@ public class World extends Stew<Item>
 				tokens[x][y] = ' ';
 			}
 		}
-		for(Item i : this) tokens[i.getX()][i.getY()] = i.getToken();
+		for(Item i : this) {
+			if(i.getX() > 4 || i.getY() > 4) {
+				System.err.println("Inconcievable! "+i);
+			}
+			tokens[i.getX()][i.getY()] = i.getToken();
+		}
 		for(int x = 0; x < rowSize; x++) {
 			for(int y = 0; y < columnSize; y++) {
 				labels[x][y].setText(""+tokens[x][y]);

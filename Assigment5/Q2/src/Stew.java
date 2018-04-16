@@ -1,7 +1,6 @@
 import java.util.AbstractSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -41,9 +40,6 @@ public class Stew<E>
 	public Iterator<E> iterator() {
         return map.keySet().iterator();
     }
-	public Iterator<Map.Entry<E,E>> iteratorMap() {
-		return map.entrySet().iterator();
-	}
 	/**
 	 * Size.
 	 */

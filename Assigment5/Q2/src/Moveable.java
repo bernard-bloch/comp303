@@ -21,6 +21,7 @@ public class Moveable extends Immovable
 	{
 		int x = this.getX() + this.getX() - push.getX();
 		int y = this.getY() + this.getY() - push.getY();
+		if(!world.isValidCoord(x, y)) return false;
 		Item i = world.look(x,y);
 		return i == null ? true : i.isMoveable(this);
 	}
