@@ -17,7 +17,7 @@ public class Cool303Root extends JPanel implements Cool303Component
 	
 	public Cool303Root()
 	{
-		
+
 	}
 	@Override
 	public void setColor(Color c) 

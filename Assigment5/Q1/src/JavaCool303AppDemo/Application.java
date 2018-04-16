@@ -1,7 +1,7 @@
 package JavaCool303AppDemo;
 
 /**
- 	<h1>File Name: Application.java </h1><br>
+ <h1>File Name: Application.java </h1><br>
  	@author Jonathan Bernard Bloch 
 */
 
@@ -19,37 +19,79 @@ public class Application
 	
 	public static void main(String[] args)
 	{
-		Cool303Window window = new Cool303Window();
+		Class selectedTheme = Cool303PastelTheme.class;
 		
-		window.setSize(500, 500);
-		
-		Cool303Root root = new Cool303Root();
-		window.setContentPane(root);
-		root.setLayout(new GridLayout(5,4,5,5));
-		root.setColor(PastelButton.chocolate);
-
-		for(int i=1; i <= 20; i++)
+		if(selectedTheme == Cool303SummerTheme.class)
 		{
-			
-			Cool303Button button = new Cool303Button("" + i );
-			Cool303Container container = new Cool303Container();
-			container.setColor(PastelButton.mauve);
-			
-			
-			button.setColor(SummerButton.forestGreen);
-			button.addActionListener(new ActionListener()
+			Cool303SummerWindow cool303SummerWindow = new Cool303SummerWindow();
+		
+			cool303SummerWindow.setSize(500, 500);
+		
+			Cool303Root root = new Cool303Root();
+			cool303SummerWindow.setContentPane(root);
+			root.setLayout(new GridLayout(5,4,5,5));
+			root.setColor(Cool303SummerTheme.khaki);
+
+			for(int i=1; i <= 20; i++)
 			{
-				public void actionPerformed(ActionEvent e)
+			
+				Cool303SummerButton cool303SummerButton = new Cool303SummerButton("" + i );
+				Cool303Container container = new Cool303Container();
+				container.setColor(Cool303SummerTheme.lavender);
+			
+			
+				cool303SummerButton.setColor(Cool303SummerTheme.forestGreen);
+				cool303SummerButton.addActionListener(new ActionListener()
 				{
-					System.out.println(button.getText());
-			}	}					
-									);
+					public void actionPerformed(ActionEvent e)
+					{
+						System.out.println(cool303SummerButton.getText());
+					}
+				}
+						);
 			
 			root.add(container);
-			container.add(button);
-			
-		}
+			container.add(cool303SummerButton);
+			}
 		
-		window.setVisible(true);	
+		
+			cool303SummerWindow.setVisible(true);
+		}
+		else if(selectedTheme == Cool303PastelTheme.class)
+		{
+			Cool303PastelWindow cool303PastelWindow = new Cool303PastelWindow();
+			
+			cool303PastelWindow.setSize(500, 500);
+		
+			Cool303Root root = new Cool303Root();
+			cool303PastelWindow.setContentPane(root);
+			root.setLayout(new GridLayout(5,4,5,5));
+			root.setColor(Cool303PastelTheme.chocolate);
+
+			for(int i=1; i <= 20; i++)
+			{
+			
+				Cool303PastelButton cool303PastelButton = new Cool303PastelButton("" + i );
+				Cool303Container container = new Cool303Container();
+				container.setColor(Cool303PastelTheme.mauve);
+			
+			
+				cool303PastelButton.setColor(Cool303PastelTheme.meirose);
+				cool303PastelButton.addActionListener(new ActionListener()
+				{
+					public void actionPerformed(ActionEvent e)
+					{
+						System.out.println(cool303PastelButton.getText());
+					}
+				}
+						);
+			
+			root.add(container);
+			container.add(cool303PastelButton);
+			}
+		
+		
+			cool303PastelWindow.setVisible(true);
+		}
 	}
 }

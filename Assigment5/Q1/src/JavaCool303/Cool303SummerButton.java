@@ -2,17 +2,32 @@ package JavaCool303;
 
 import java.awt.Color;
 
+//import java.awt.Color;
+
+import javax.swing.JButton;
+
 /**
  * 
  * @author jbloch1
  *
  */
-public class SummerButton extends Cool303Theme
+public class Cool303SummerButton extends JButton
 {	
-	public static Color lavender = new Color(230,230,250);
-	public static Color khaki = new Color(240,230,140);
-	public static Color forestGreen = new Color(34,139,34);
-	public static Color pink = new Color(255,192,203);
-	public static Color blue = new Color(0, 0, 255);
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public Cool303SummerButton(String s)
+	{
+		super(s);
+	}
+	public void setColor(Color c)
+	{
+		setBackground(c);
+		//setBackground(Color.blue);
+	}
+	
+	
 }
 
