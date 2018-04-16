@@ -1,5 +1,6 @@
 package JavaCool303;
 
+import java.awt.Color;
 
 /**
  * 
@@ -13,9 +14,9 @@ public class Cool303SummerButton extends Cool303Button
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public Cool303SummerButton(String s)
+	public Cool303SummerButton(String s, Color c)
 	{
-		super(s);
+		super(s, c);
 	}
 	
 	

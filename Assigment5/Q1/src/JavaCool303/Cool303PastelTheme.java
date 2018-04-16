@@ -24,7 +24,7 @@ public class Cool303PastelTheme implements Cool303Theme
 	}
 	
 	public Cool303Button makeButton(String label) {
-		return new Cool303SummerButton(label);
+		return new Cool303PastelButton(label, getButtonColor());
 	}
 
 	public Cool303Container makeContainer() {

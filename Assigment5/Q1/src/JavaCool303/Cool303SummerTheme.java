@@ -29,7 +29,7 @@ public class Cool303SummerTheme implements Cool303Theme
 	}
 	
 	public Cool303Button makeButton(String label) {
-		return new Cool303SummerButton(label);
+		return new Cool303SummerButton(label, getButtonColor());
 	}
 
 	@Override

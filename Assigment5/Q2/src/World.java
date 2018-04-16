@@ -1,4 +1,6 @@
 import java.awt.GridLayout;
+import java.util.Iterator;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
@@ -15,6 +17,16 @@ public class World extends Stew<Item>
 	private JLabel labels[][];
 
 	public final int rowSize, columnSize;
+	
+	// vector for private movement list
+	protected class Vector {
+		final int x, y;
+		Vector(final int x, final int y) {
+			this.x = x;
+			this.y = y;
+		}
+	}
+
 	
 	/**
 	 * Sets up a blank world.
@@ -37,8 +49,14 @@ public class World extends Stew<Item>
 	 */
 	public void step()
 	{
-		// Concurrent modification: forEach(item -> item.step());
-		for(Item i : this) i.step();
+		// Concurrent modification:
+		forEach(item -> item.step());
+		// Concurrent modification: for(Item i : this) i.step();
+		/*Iterator<Map.Entry<Integer, Integer>> it = map.entrySet().iterator();
+		while (it.hasNext()) {
+		    Map.Entry<Integer, Integer> pair = it.next();
+		    i += pair.getKey() + pair.getValue();
+		}*/
 	}
 	
 	/**

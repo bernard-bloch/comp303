@@ -19,7 +19,9 @@ public class Application
 	
 	public static void main(String[] args)
 	{
-		Cool303Window window = new Cool303Window(new Cool303SummerTheme());
+		Cool303Theme a = new Cool303SummerTheme();
+		Cool303Theme b = new Cool303PastelTheme();
+		Cool303Window window = new Cool303Window(b);
 		window.setSize(500, 500);
 		window.setLayout(new GridLayout(5,4,5,5));
 		for(int i=1; i <= 20; i++)
