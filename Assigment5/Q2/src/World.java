@@ -37,7 +37,8 @@ public class World extends Stew<Item>
 	 */
 	public void step()
 	{
-		forEach(item -> item.step());
+		// Concurrent modification: forEach(item -> item.step());
+		for(Item i : this) i.step();
 	}
 	
 	/**

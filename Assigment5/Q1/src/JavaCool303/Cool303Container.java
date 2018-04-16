@@ -8,14 +8,11 @@ public class Cool303Container extends JPanel
 	
 	private static final long serialVersionUID = 1L;
 
-	public Cool303Container()
+	public Cool303Container(Color container)
 	{
 		JPanel panel = new JPanel();
 		panel.setSize(5,5);
+		setBackground(container);
 	}
 
-	public void setColor(Color c) 
-	{
-		setBackground(c);
-	}
 }

@@ -59,10 +59,10 @@ public final class Autonomous extends Moveable {
 		// pick a random direction
 		Vector exit = exits.get(ran.nextInt(exits.size()));
 		Item bump = world.look(exit.x, exit.y);
-		/*if(bump != null) bump.move(this);
+		if(bump != null) bump.move(this);
 		world.remove(this);
 		this.setXY(exit.x, exit.y);
-		world.add(this);*/
+		world.add(this);
 	}
 	
 }

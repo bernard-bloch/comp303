@@ -28,6 +28,6 @@ public class Cool303PastelTheme implements Cool303Theme
 	}
 
 	public Cool303Container makeContainer() {
-		return new Cool303Container();
+		return new Cool303Container(getContainerColor());
 	}
 }

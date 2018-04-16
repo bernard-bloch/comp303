@@ -34,7 +34,7 @@ public class Cool303SummerTheme implements Cool303Theme
 
 	@Override
 	public Cool303Container makeContainer() {
-		return new Cool303Container();
+		return new Cool303Container(getContainerColor());
 	}
 	
 }
