@@ -68,7 +68,6 @@ public class Stew<E>
 		if(map.containsKey(e)) return false;
 		if(e.hashCode() >= bins) return false;
         if(map.put(e, e) != null) System.err.println("Error: " + e);;
-        System.err.println("Stew: "+map.get(e));
         return true;
     }
 	/**
@@ -89,7 +88,6 @@ public class Stew<E>
      * @return Either null or proto.equals(return).
      */
     public E get(final E proto) {
-    	System.err.println("Stew: get(" + proto.hashCode() + ") = " + map.get(proto));
     	return map.get(proto);
     }
     /**

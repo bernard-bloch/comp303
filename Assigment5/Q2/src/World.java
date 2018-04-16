@@ -11,7 +11,8 @@ import javax.swing.JLabel;
  */
 public class World extends Stew<Item>
 {
-	private static JFrame frame = null; // A window
+	private JFrame frame = null; // A window
+	private JLabel labels[][];
 
 	public final int rowSize, columnSize;
 	
@@ -51,7 +52,6 @@ public class World extends Stew<Item>
 		// i is a dummy only used for it's hashCode()
 		Item i = new Immovable(this, "i", 'i');
 		i.setXY(x, y);
-		System.err.println("World.look: "+i+"="+get(i));
 		return get(i);
 	}
 	
@@ -73,7 +73,7 @@ public class World extends Stew<Item>
 		if(contains(item)) remove(item);
 		item.setXY(x, y);
 		if(!add(item)) throw new ArrayStoreException("Couldn't add " + item);
-		System.err.println("Adding "+item+"; Added " + look(x, y));
+		//System.err.println("Adding "+item+"; Added " + look(x, y));
 	}
 	
 	/**
@@ -105,9 +105,7 @@ public class World extends Stew<Item>
 		for(Item i : this) tokens[i.getX()][i.getY()] = i.getToken();
 		for(int x = 0; x < rowSize; x++) {
 			for(int y = 0; y < columnSize; y++) {
-				JLabel a = new JLabel(""+tokens[x][y]);
-				a.setHorizontalAlignment(JLabel.CENTER);
-				frame.add(a);
+				labels[x][y].setText(""+tokens[x][y]);
 			}
 		}
 	}
@@ -122,6 +120,15 @@ public class World extends Stew<Item>
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLayout(new GridLayout(columnSize,rowSize, 5, 5));
 		frame.setVisible(true);
+		labels = new JLabel[rowSize][columnSize];
+		for(int x = 0; x < rowSize; x++) {
+			for(int y = 0; y < columnSize; y++) {
+				JLabel a = new JLabel("*");
+				a.setHorizontalAlignment(JLabel.CENTER);
+				frame.add(a);
+				labels[x][y] = a;
+			}
+		}
 	}
 	
 	/**

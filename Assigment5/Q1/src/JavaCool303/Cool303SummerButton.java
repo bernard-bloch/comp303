@@ -1,17 +1,12 @@
 package JavaCool303;
 
-import java.awt.Color;
-
-//import java.awt.Color;
-
-import javax.swing.JButton;
 
 /**
  * 
  * @author jbloch1
  *
  */
-public class Cool303SummerButton extends JButton
+public class Cool303SummerButton extends Cool303Button
 {	
 	/**
 	 * 
@@ -21,11 +16,6 @@ public class Cool303SummerButton extends JButton
 	public Cool303SummerButton(String s)
 	{
 		super(s);
-	}
-	public void setColor(Color c)
-	{
-		setBackground(c);
-		//setBackground(Color.blue);
 	}
 	
 	

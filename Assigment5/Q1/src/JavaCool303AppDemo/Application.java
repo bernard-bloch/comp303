@@ -19,11 +19,32 @@ public class Application
 	
 	public static void main(String[] args)
 	{
+		Cool303Window window = new Cool303Window(new Cool303SummerTheme());
+		window.setSize(500, 500);
+		window.setLayout(new GridLayout(5,4,5,5));
+		for(int i=1; i <= 20; i++)
+		{
+			Cool303Button b = window.makeButton(""+i);
+			b.addActionListener(new ActionListener()
+			{
+				public void actionPerformed(ActionEvent e)
+				{
+					System.out.println(b.getText());
+				}
+			}
+			);
+			window.makeContainer().add(b);
+		}
+		window.setVisible(true);
+
+		
+		
+		
 		Class selectedTheme = Cool303PastelTheme.class;
 		
 		if(selectedTheme == Cool303SummerTheme.class)
 		{
-			Cool303SummerWindow cool303SummerWindow = new Cool303SummerWindow();
+			/*Cool303Window cool303Window = new Cool303Window();
 		
 			cool303SummerWindow.setSize(500, 500);
 		
@@ -55,7 +76,7 @@ public class Application
 			}
 		
 		
-			cool303SummerWindow.setVisible(true);
+			cool303SummerWindow.setVisible(true);*/
 		}
 		else if(selectedTheme == Cool303PastelTheme.class)
 		{

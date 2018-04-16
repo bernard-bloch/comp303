@@ -3,32 +3,29 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Random;
 
-
 public class MainProgram 
 {
 	public static void main(String[] args) throws IOException
 	{
-		//World world = buildWorld(5, 3, 2);
-		World world = buildWorld(1, 1, 1);
+		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+		System.out.println("Loading world...");
+		World world = buildWorld(5, 3, 2);
+		System.out.println("[done]");
+		world.display();
 		
-		/*do
+		do
 		{
-			world.display();
-			
-			world.step();
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			for(int countIteration = 1; countIteration <= 100; countIteration++)
+			for(int countIteration = 1; countIteration <= 4/*100*/; countIteration++)
 			{
+				try {
+					Thread.sleep(200);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 				world.step();
-				
+				world.display();
 			}
 			
-			world.display();
-
 			String response;
 			while(true)
 			{
@@ -41,7 +38,7 @@ public class MainProgram
 			if(response.equalsIgnoreCase("no")) break;
 
 		}while(true);	
-		System.out.println("Fine then!! Have a nice day!");*/
+		System.out.println("Fine then!! Have a nice day!");
 	}
 		
 	/**
@@ -50,14 +47,13 @@ public class MainProgram
 	 */
 	private static World buildWorld(int immovables, int moveables, int autonomous)
 	{
-		final int rows = 2, columns = 2;
+		final int rows = 5, columns = 5;
 		// ensure the size is enough for every object
 		if(columns * rows<immovables+moveables+autonomous) throw new IndexOutOfBoundsException("Not enough room for those objects");
 		World world = new World(rows, columns);
 		Random ran = new Random(0); // debugging, always creates random at the same place
 		int x, y;
 
-		System.err.println("------------------buildWorld Empty:\n"+world);
 		for(int i = 0; i < immovables; i++) {
 			char tok = (char) ('A' + (i % 26));
 			String str = "" + tok;
@@ -67,9 +63,7 @@ public class MainProgram
 				y = ran.nextInt(world.columnSize);
 			} while(world.look(x, y) != null);
 			world.add(imm, x, y);
-			System.err.println("buildWorld Immovable " + imm + " added: " + world.look(x, y));
 		}
-		System.err.println("------------------buildWorld "+immovables+" immovable added:\n"+world);
 		for(int i = 0; i < moveables; i++) {
 			char tok = (char) ('a' + (i % 26));
 			String str = "" + tok;
@@ -79,9 +73,7 @@ public class MainProgram
 				y = ran.nextInt(world.columnSize);
 			} while(world.look(x, y) != null);
 			world.add(mov, x, y);
-			System.err.println("buildWorld Movable " + mov + " added: " + world.look(x, y));
 		}
-		System.err.println("------------------buildWorld "+moveables+" moveable added:\n"+world);
 		for(int i = 0; i < autonomous; i++) {
 			char tok = (char) ('!' + (i % 32));
 			String str = "" + tok;
@@ -91,9 +83,7 @@ public class MainProgram
 				y = ran.nextInt(world.columnSize);
 			} while(world.look(x, y) != null);
 			world.add(aut, x, y);
-			System.err.println("buildWorld Autonomous " + aut + " added: " + world.look(x, y));
 		}
-		System.err.println("------------------buildWorld "+autonomous+" autonomous added:\n"+world);
 		return world;
 	}
 }

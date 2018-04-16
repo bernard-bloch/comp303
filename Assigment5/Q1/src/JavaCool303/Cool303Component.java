@@ -1,8 +1,12 @@
 package JavaCool303;
 
-import java.awt.Color;
+import javax.swing.JComponent;
 
-public interface Cool303Component 
+public class Cool303Component extends JComponent
 {
-	public void setColor(Color c);
+
+	/**
+	 * Eclipse added this.
+	 */
+	private static final long serialVersionUID = 3845205787452655041L;
 }

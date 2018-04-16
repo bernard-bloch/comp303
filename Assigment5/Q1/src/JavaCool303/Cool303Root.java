@@ -1,6 +1,5 @@
 package JavaCool303;
 
-import java.awt.Color;
 import javax.swing.JPanel;
 
 /**
@@ -8,7 +7,7 @@ import javax.swing.JPanel;
  * @author jbloch1
  *
  */
-public class Cool303Root extends JPanel implements Cool303Component
+public class Cool303Root extends JPanel
 {
 	/**
 	 * 
@@ -17,13 +16,7 @@ public class Cool303Root extends JPanel implements Cool303Component
 	
 	public Cool303Root()
 	{
-
-	}
-	@Override
-	public void setColor(Color c) 
-	{	
-		setBackground(c);
-	}
-	
+		super();
+	}	
 	
 }
