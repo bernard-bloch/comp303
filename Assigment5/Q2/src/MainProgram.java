@@ -11,19 +11,21 @@ public class MainProgram
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		System.out.println("Loading world...");
 		World world = buildWorld(5, 3, 2);
-		System.out.println("[done]");
+		System.out.println("[done]\n" + world);
 		world.display();
+		int count = 0;
 		
 		do
 		{
-			for(int countIteration = 1; countIteration <= 100; countIteration++)
+			int max = /*(count==0 ? 26:1)*/100;
+			for(int countIteration = 1; countIteration <= max; countIteration++)
 			{
 				try {
-					Thread.sleep(50);
+					Thread.sleep(500);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				world.step();
+				world.step(); count++;
 				world.display();
 			}
 			
@@ -31,7 +33,7 @@ public class MainProgram
 			while(true)
 			{
 				System.out.println(world);
-				System.out.println("Would you like to run the simulation again?");
+				System.out.println("You have run " + count + " steps. Would you like to run the simulation again?");
 				response = in.readLine();	
 				if(response.equalsIgnoreCase("no") || response.equalsIgnoreCase("yes")) break;
 				else System.out.println("Please reply either a yes or a no.");
@@ -52,7 +54,7 @@ public class MainProgram
 		// ensure the size is enough for every object
 		if(columns * rows<immovables+moveables+autonomous) throw new IndexOutOfBoundsException("Not enough room for those objects");
 		World world = new World(rows, columns);
-		Random ran = new Random(0); // debugging, always creates random at the same place
+		Random ran = new Random(/*0*/); // debugging, always creates random at the same place
 		int x, y;
 
 		for(int i = 0; i < immovables; i++) {

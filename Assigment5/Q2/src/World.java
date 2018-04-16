@@ -36,6 +36,11 @@ public class World extends Stew<Item>
 	 * array changing the state of the world by updating the position of all the
 	 * Autonomous and Moveable objects (see below). It does this once for each call to
 	 * the method.
+	 * 
+	 * An autonomous object can receive a boost from other autonomous objects
+	 * if it they are earlier in the list, causing it to move two/several frames.
+	 * It looks like it teleported, however items are called once, not possibly multiple
+	 * times like if I did it for each cell directly.
 	 */
 	public void step()
 	{
@@ -107,12 +112,7 @@ public class World extends Stew<Item>
 				tokens[x][y] = ' ';
 			}
 		}
-		for(Item i : this) {
-			if(i.getX() > 4 || i.getY() > 4) {
-				System.err.println("Inconcievable! "+i);
-			}
-			tokens[i.getX()][i.getY()] = i.getToken();
-		}
+		for(Item i : this) tokens[i.getX()][i.getY()] = i.getToken();
 		for(int x = 0; x < rowSize; x++) {
 			for(int y = 0; y < columnSize; y++) {
 				labels[x][y].setText(""+tokens[x][y]);
@@ -146,7 +146,7 @@ public class World extends Stew<Item>
 	 */
 	@Override
 	public String toString() {
-		String a = "<<World.toString\n";
+		String a = ""/*"<<World.toString\n"*/;
 		for(int x = 0; x < rowSize; x++) {
 			for(int y = 0; y < columnSize; y++) {
 				Item i = look(x, y);
@@ -154,7 +154,7 @@ public class World extends Stew<Item>
 			}
 			a += '\n';
 		}
-		a += super.toString() + "World.toString>>\n";
+		//a += super.toString() + "World.toString>>\n";
 		return a;
 	}
 

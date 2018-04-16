@@ -5,6 +5,9 @@ import java.util.Random;
 /**
  * Implemented exactly like Moveable (bumped by a Moveable object or another
  * Autonomous object causes it to shift one cell in the direction it was bumped).
+ * 
+ * 
+ * 
  * @author jbloch1
  *
  */
@@ -23,6 +26,9 @@ public final class Autonomous extends Moveable {
 		Vector(final int x, final int y) {
 			this.x = x;
 			this.y = y;
+		}
+		public String toString() {
+			return "("+x+","+y+")";
 		}
 	}
 
@@ -54,6 +60,7 @@ public final class Autonomous extends Moveable {
 	public void step()
 	{
 		List<Vector> exits = getExits();
+		//System.err.println("Automomous "+this+" has exits "+exits);
 		// we can't go anywhere
 		if(exits.isEmpty()) return;
 		// pick a random direction
