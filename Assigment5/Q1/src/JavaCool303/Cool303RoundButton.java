@@ -1,6 +1,9 @@
 package JavaCool303;
 
-/* https://www.javacodex.com/More-Examples/2/14 */
+/**
+ * Taken from <a href="https://www.javacodex.com/More-Examples/2/14">https://www.javacodex.com/More-Examples/2/14</a>
+ * to output a round button.
+ @author javacodex.com  */
 
 import java.awt.*;
 import java.awt.geom.*;
